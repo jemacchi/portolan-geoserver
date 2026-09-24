@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "portolan-geoserver"
+version = "0.1.0"
+description = "Publish Portolan catalogs to GeoServer."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Portolan contributors" },
+]
+dependencies = [
+  "click>=8.1.0",
+  "geoservercloud>=0.8.12",
+  "portolan-python>=0.1.0",
+]
+
+[project.scripts]
+portolan-geoserver = "portolan_geoserver.cli:main"
+
+[project.entry-points."portolan.cli.plugins"]
+geoserver = "portolan_geoserver.plugin:get_portolan_cli_plugin"
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.18.0",
+  "pytest>=8.0.0",
+  "pytest-cov>=6.0.0",
+  "ruff>=0.13.0",
+]
+
+[tool.uv.sources]
+portolan-python = { path = "../portolan-python", editable = true }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=portolan_geoserver --cov-report=term-missing --cov-fail-under=85"
+markers = [
+  "unit: fast isolated tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["portolan_geoserver"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 85
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "C4", "UP"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src", "tests"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/portolan_geoserver"]
