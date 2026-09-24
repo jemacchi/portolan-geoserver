@@ -283,4 +283,11 @@ They should share mapping concepts and expected behavior where appropriate, but 
 * experimentation;
 * provisioning and synchronization.
 
+## Local documentation
+
+- [Architecture](docs/architecture.md) explains the catalog, planning, and execution layers.
+- [Examples](docs/examples.md) shows standalone and plugin command usage.
+- [Plugin](docs/plugin.md) documents the `portolan-cli` integration point.
+- [Development](docs/development.md) lists setup, test, and build commands.
+
 ---
