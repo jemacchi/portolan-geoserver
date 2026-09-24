@@ -8,6 +8,7 @@ from typing import Any
 
 import pytest
 from click.testing import CliRunner
+from portolan import RegistryCatalogEntry
 
 from portolan_geoserver import (
     GeoServerProvider,
@@ -369,6 +370,93 @@ def test_cli_publish_uses_env_credentials_and_json_output(
     assert payload["workspace"] == "demo"
     assert payload["published"] == 2
     assert "secret" not in result.output
+
+
+def test_cli_serve_publishes_registry_catalogs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _catalog(tmp_path / "downloaded")
+    fake_client = RecordingGeoServerClient()
+    monkeypatch.setenv("PORTOLAN_GEOSERVER_URL", "http://geoserver.test/geoserver")
+    monkeypatch.setenv("PORTOLAN_GEOSERVER_USER", "admin")
+    monkeypatch.setenv("PORTOLAN_GEOSERVER_PASSWORD", "secret")
+    monkeypatch.setattr(cli_module, "GeoServerClient", lambda *args, **kwargs: fake_client)
+    monkeypatch.setattr(
+        cli_module,
+        "load_registry_entries",
+        lambda *args, **kwargs: [
+            RegistryCatalogEntry(
+                id="demo",
+                url="https://registry.test/demo/catalog.json",
+                title="Demo",
+                status="valid",
+            )
+        ],
+    )
+    monkeypatch.setattr(
+        cli_module,
+        "download_registry_catalog",
+        lambda catalog_url, output_dir: tmp_path / "downloaded",
+    )
+
+    result = CliRunner().invoke(
+        main,
+        [
+            "serve",
+            "--catalog-id",
+            "demo",
+            "--registry",
+            "https://registry.test/catalogs.json",
+            "--cache-dir",
+            str(tmp_path / "cache"),
+            "--workspace",
+            "registry-workspace",
+            "--json",
+        ],
+    )
+
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.output)
+    assert payload["registry_url"] == "https://registry.test/catalogs.json"
+    assert payload["catalogs"][0]["id"] == "demo"
+    assert payload["catalogs"][0]["local_path"] == str(tmp_path / "downloaded")
+    assert payload["catalogs"][0]["result"]["published"] == 2
+
+
+def test_cli_serve_reports_missing_registry_catalog(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("PORTOLAN_GEOSERVER_URL", "http://geoserver.test/geoserver")
+    monkeypatch.setenv("PORTOLAN_GEOSERVER_USER", "admin")
+    monkeypatch.setenv("PORTOLAN_GEOSERVER_PASSWORD", "secret")
+    monkeypatch.setattr(
+        cli_module,
+        "GeoServerClient",
+        lambda *args, **kwargs: RecordingGeoServerClient(),
+    )
+    monkeypatch.setattr(cli_module, "load_registry_entries", lambda *args, **kwargs: [])
+
+    result = CliRunner().invoke(
+        main,
+        ["serve", "--catalog-id", "missing", "--cache-dir", str(tmp_path), "--json"],
+    )
+
+    assert result.exit_code == 1
+    payload = json.loads(result.output)
+    assert payload["errors"] == ["catalog not found in registry: missing"]
+
+
+def test_cli_serve_validates_selection_options(tmp_path: Path) -> None:
+    both = CliRunner().invoke(
+        main,
+        ["serve", "--all", "--catalog-id", "demo", "--cache-dir", str(tmp_path)],
+    )
+    neither = CliRunner().invoke(main, ["serve", "--cache-dir", str(tmp_path)])
+
+    assert both.exit_code != 0
+    assert "Use either --all or --catalog-id" in both.output
+    assert neither.exit_code != 0
+    assert "Use --catalog-id or --all" in neither.output
 
 
 def test_cli_sync_returns_error_exit_for_publish_errors(

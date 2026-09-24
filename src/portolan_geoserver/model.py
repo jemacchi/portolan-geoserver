@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+from pathlib import Path
 from typing import Any
 
 
@@ -94,6 +95,27 @@ class PublishResult:
     workspace: str
     published: int = 0
     skipped: int = 0
+    errors: list[str] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
+class ServedCatalog:
+    """One registry catalog processed by the serve command."""
+
+    id: str
+    url: str
+    title: str | None
+    status: str | None
+    local_path: Path
+    result: PublishResult
+
+
+@dataclass(frozen=True)
+class ServeResult:
+    """Result from serving one or more registry catalogs."""
+
+    registry_url: str
+    catalogs: list[ServedCatalog]
     errors: list[str] = field(default_factory=list)
 
 

@@ -8,7 +8,9 @@ from portolan_geoserver.model import (
     PublishResult,
     ResourceFormat,
     ResourceType,
+    ServedCatalog,
     ServerCatalog,
+    ServeResult,
     ServerResourceSpec,
 )
 from portolan_geoserver.planner import discover_server_resources, load_server_catalog
@@ -23,6 +25,8 @@ __all__ = [
     "PublishResult",
     "ResourceFormat",
     "ResourceType",
+    "ServedCatalog",
+    "ServeResult",
     "ServerCatalog",
     "ServerResourceSpec",
     "discover_server_resources",

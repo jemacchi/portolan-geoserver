@@ -98,13 +98,19 @@ The actual GeoParquet and COG data access remains the responsibility of GeoServe
 * supporting dry-run/plan operations;
 * supporting synchronization.
 
-Potential commands include:
+Commands include:
 
 ```bash
 portolan-geoserver plan <catalog>
 portolan-geoserver publish <catalog>
 portolan-geoserver sync <catalog>
+portolan-geoserver serve --catalog-id <id>
+portolan-geoserver serve --all
 ```
+
+`plan`, `publish`, and `sync` operate on a local Portolan catalog. `serve`
+operates from a Portolan registry. It fetches one or more catalog snapshots from
+the registry and publishes them to GeoServer.
 
 ## Portolan CLI plugin
 
@@ -123,9 +129,14 @@ the user may obtain:
 portolan geoserver plan ...
 portolan geoserver publish ...
 portolan geoserver sync ...
+portolan geoserver serve ...
 ```
 
 without moving GeoServer-specific code into `portolan-cli`.
+
+This package exposes the entry point `portolan.cli.plugins`. A `portolan-cli`
+installation can mount that entry point after it implements command-plugin
+discovery. Until then, `portolan-geoserver` works as a standalone CLI.
 
 Conceptually:
 
