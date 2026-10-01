@@ -289,5 +289,6 @@ They should share mapping concepts and expected behavior where appropriate, but 
 - [Examples](docs/examples.md) shows standalone and plugin command usage.
 - [Plugin](docs/plugin.md) documents the `portolan-cli` integration point.
 - [Development](docs/development.md) lists setup, test, and build commands.
+- [Distribution](docs/distribution.md) explains release artifacts and PyPI publishing.
 
 ---

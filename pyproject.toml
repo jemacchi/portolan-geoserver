@@ -18,6 +18,11 @@ dependencies = [
   "portolan-python>=0.1.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/jemacchi/portolan-geoserver"
+Repository = "https://github.com/jemacchi/portolan-geoserver"
+Documentation = "https://github.com/jemacchi/portolan-geoserver/tree/main/docs"
+
 [project.scripts]
 portolan-geoserver = "portolan_geoserver.cli:main"
 

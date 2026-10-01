@@ -2,6 +2,30 @@
 
 These examples assume a local Portolan catalog at `./catalog`.
 
+## Install a released version
+
+Until both packages are published on PyPI, install their released wheels in one
+command:
+
+```bash
+python -m pip install \
+  https://github.com/jemacchi/portolan-python/releases/download/v0.1.0/portolan_python-0.1.0-py3-none-any.whl \
+  https://github.com/jemacchi/portolan-geoserver/releases/download/v0.1.0/portolan_geoserver-0.1.0-py3-none-any.whl
+```
+
+Confirm that the standalone command and plugin metadata are available:
+
+```bash
+portolan-geoserver --help
+python -c "from importlib.metadata import entry_points; print(entry_points(group='portolan.cli.plugins'))"
+```
+
+After PyPI publication, the equivalent installation is:
+
+```bash
+python -m pip install portolan-geoserver==0.1.0
+```
+
 ## Show a publication plan without GeoServer access
 
 ```bash
