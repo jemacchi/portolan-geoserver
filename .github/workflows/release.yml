@@ -12,7 +12,7 @@ on:
         type: string
 
 env:
-  PORTOLAN_PYTHON_VERSION: "0.1.0"
+  PORTOLAN_PYTHON_VERSION: "0.1.2"
   RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
 
 jobs:
