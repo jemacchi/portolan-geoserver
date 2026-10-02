@@ -249,7 +249,11 @@ def serve_registry(
     errors = [f"catalog not found in registry: {item}" for item in missing]
     for entry in entries:
         try:
-            local_path = download_registry_catalog(entry.url, cache_dir)
+            local_path = download_registry_catalog(
+                entry.url,
+                cache_dir,
+                expected_catalog_id=entry.id,
+            )
             publish_result = (
                 provider.publish(local_path) if mode == "publish" else provider.sync(local_path)
             )

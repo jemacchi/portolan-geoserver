@@ -393,11 +393,16 @@ def test_cli_serve_publishes_registry_catalogs(
             )
         ],
     )
-    monkeypatch.setattr(
-        cli_module,
-        "download_registry_catalog",
-        lambda catalog_url, output_dir: tmp_path / "downloaded",
-    )
+    def download_catalog(
+        catalog_url: str,
+        output_dir: Path,
+        *,
+        expected_catalog_id: str | None = None,
+    ) -> Path:
+        assert expected_catalog_id == "demo"
+        return tmp_path / "downloaded"
+
+    monkeypatch.setattr(cli_module, "download_registry_catalog", download_catalog)
 
     result = CliRunner().invoke(
         main,
