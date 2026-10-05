@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -111,8 +112,21 @@ def _native_name(asset: Asset, resource_format: ResourceFormat) -> str | None:
     if resource_format is ResourceFormat.GEOPARQUET:
         stem = Path(urlparse(asset.href).path).stem
         if stem:
-            return stem
+            return _geotools_native_name(stem)
     return asset.key
+
+
+def _geotools_native_name(name: str) -> str:
+    """Match the NCName normalization used by the GeoTools GeoParquet store."""
+    normalized = re.sub(r"[^a-zA-Z0-9_.-]", "_", name.strip())
+    normalized = re.sub(r"[_-]+", "_", normalized)
+    if not normalized or normalized == "_":
+        return "_"
+    if not normalized[0].isalpha() and normalized[0] != "_":
+        normalized = f"_{normalized}"
+    if len(normalized) > 1:
+        normalized = normalized.rstrip("_")
+    return normalized
 
 
 def _has_geometry(collection: dict[str, Any]) -> bool:

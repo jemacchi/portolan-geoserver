@@ -27,7 +27,7 @@ Install both wheels directly from their GitHub releases:
 ```bash
 python -m pip install \
   https://github.com/jemacchi/portolan-python/releases/download/v0.1.5/portolan_python-0.1.5-py3-none-any.whl \
-  https://github.com/jemacchi/portolan-geoserver/releases/download/v0.1.4/portolan_geoserver-0.1.4-py3-none-any.whl
+  https://github.com/jemacchi/portolan-geoserver/releases/download/v0.1.5/portolan_geoserver-0.1.5-py3-none-any.whl
 ```
 
 `pip` resolves `click`, `geoservercloud`, and their dependencies from PyPI.
@@ -37,7 +37,7 @@ python -m pip install \
 Install a published version and its dependency chain with:
 
 ```bash
-python -m pip install portolan-geoserver==0.1.4
+python -m pip install portolan-geoserver==0.1.5
 ```
 
 Omit the version constraint to install the latest published version.

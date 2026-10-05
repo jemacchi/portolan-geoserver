@@ -218,6 +218,18 @@ def test_discovers_publishable_resources(tmp_path: Path) -> None:
     assert resources[0].native_name == "roads"
 
 
+def test_geoparquet_native_name_matches_geotools_identifier(tmp_path: Path) -> None:
+    _catalog(tmp_path)
+    collection_path = tmp_path / "roads" / "collection.json"
+    collection = json.loads(collection_path.read_text(encoding="utf-8"))
+    collection["assets"]["data"]["href"] = "https://example.test/anncsu-indirizzi.parquet"
+    _write_json(collection_path, collection)
+
+    resources = discover_server_resources(tmp_path)
+
+    assert resources[0].native_name == "anncsu_indirizzi"
+
+
 def test_discovers_local_assets_and_catalog_id_fallback(tmp_path: Path) -> None:
     _catalog_without_id(tmp_path)
 

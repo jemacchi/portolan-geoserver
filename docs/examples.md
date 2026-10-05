@@ -10,7 +10,7 @@ command:
 ```bash
 python -m pip install \
   https://github.com/jemacchi/portolan-python/releases/download/v0.1.5/portolan_python-0.1.5-py3-none-any.whl \
-  https://github.com/jemacchi/portolan-geoserver/releases/download/v0.1.4/portolan_geoserver-0.1.4-py3-none-any.whl
+  https://github.com/jemacchi/portolan-geoserver/releases/download/v0.1.5/portolan_geoserver-0.1.5-py3-none-any.whl
 ```
 
 Confirm that the standalone command and plugin metadata are available:
@@ -23,7 +23,7 @@ python -c "from importlib.metadata import entry_points; print(entry_points(group
 After PyPI publication, the equivalent installation is:
 
 ```bash
-python -m pip install portolan-geoserver==0.1.4
+python -m pip install portolan-geoserver==0.1.5
 ```
 
 ## Show a publication plan without GeoServer access
