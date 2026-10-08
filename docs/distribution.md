@@ -8,8 +8,8 @@ the standalone CLI and the `portolan-cli` plugin entry point.
 Push a tag that matches the version in `pyproject.toml`:
 
 ```bash
-git tag v0.1.6
-git push origin v0.1.6
+git tag v0.1.7
+git push origin v0.1.7
 ```
 
 The release workflow installs the released `portolan-python` dependency, runs
@@ -26,8 +26,8 @@ Install both wheels directly from their GitHub releases:
 
 ```bash
 python -m pip install \
-  https://github.com/jemacchi/portolan-python/releases/download/v0.1.6/portolan_python-0.1.6-py3-none-any.whl \
-  https://github.com/jemacchi/portolan-geoserver/releases/download/v0.1.6/portolan_geoserver-0.1.6-py3-none-any.whl
+  https://github.com/jemacchi/portolan-python/releases/download/v0.1.8/portolan_python-0.1.8-py3-none-any.whl \
+  https://github.com/jemacchi/portolan-geoserver/releases/download/v0.1.7/portolan_geoserver-0.1.7-py3-none-any.whl
 ```
 
 `pip` resolves `click`, `geoservercloud`, and their dependencies from PyPI.
@@ -37,7 +37,7 @@ python -m pip install \
 Install a published version and its dependency chain with:
 
 ```bash
-python -m pip install portolan-geoserver==0.1.6
+python -m pip install portolan-geoserver==0.1.7
 ```
 
 Omit the version constraint to install the latest published version.

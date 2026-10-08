@@ -938,7 +938,7 @@ wheels = [
 
 [[package]]
 name = "portolan-geoserver"
-version = "0.1.6"
+version = "0.1.7"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
@@ -968,7 +968,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "portolan-python"
-version = "0.1.6"
+version = "0.1.8"
 source = { editable = "../portolan-python" }
 
 [package.metadata]

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "portolan-geoserver"
-version = "0.1.6"
+version = "0.1.7"
 description = "Publish Portolan catalogs to GeoServer."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -15,7 +15,7 @@ authors = [
 dependencies = [
   "click>=8.1.0",
   "geoservercloud>=0.8.12",
-  "portolan-python>=0.1.6,<0.2.0",
+  "portolan-python>=0.1.8,<0.2.0",
 ]
 
 [project.urls]
